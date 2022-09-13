@@ -1,0 +1,92 @@
+package trees;
+
+import java.io.*;
+
+
+public class ReadWriteBuild {
+
+    private String dings;
+
+    public void read()
+            throws IOException {
+        String file ="C:\\Users\\Robin\\Desktop\\textInfo.txt";
+
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String currentLine = reader.readLine();
+        reader.close();
+
+        dings = currentLine;
+    }
+
+    public void treeToText(Frage wurzel) throws IOException {
+        String text = toNLRString();
+        write(text);
+    }
+
+    public String toNLRString() {
+        String out = "";
+
+        // linkes Kind existiert
+        if (ja != null) { // null != 0
+            // Füge den String vom (ganzen) linken TB an
+            out = out + "j" + "|" + inhalt + "\n" + ja.toNLRString;
+        }
+
+        // wenn rechter TB existiert
+        if (nein != null) {
+            // Füge den String vom (ganzen) rechten TB an
+            out = out + "n" + "|" + inhalt + "\n" + nein.toNLRString;
+        }
+
+        return out;
+    }
+
+    public void write(String input)
+        throws IOException{
+            FileWriter fileWriter = new FileWriter("C:\\Users\\Robin\\Desktop\\textInfo.txt");
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(input);
+            printWriter.close();
+    }
+
+    public void build(Frage wurzel){
+        //from NLR
+        int counter = 0;
+        int charRawr = 0;
+        Frage runner = wurzel;
+        String[] lines = dings.split("\n");
+        int  uebrig = lines.length;
+
+        while(uebrig != 0){
+            if(lines[counter].charAt(charRawr) == 'j' && lines[counter].charAt(charRawr+1) == '|'){
+                runner.ja = new Frage(lines[counter].split("|") , null, null);
+            }
+
+            if(lines[counter].charAt(charRawr) == 'n' && lines[counter].charAt(charRawr+1) == '|'){
+                runner.nein = new Frage(lines[counter].split("|") , null, null);
+            }
+        }
+    }
+
+    public static void createFile(){
+        try {
+
+            // Get the file
+            File f = new File("C:\\Users\\Robin\\Desktop\\textInfo.txt");
+
+            // Create new file
+            // Check if it does not exist
+            if (f.createNewFile())
+                System.out.println("File created");
+            else
+                System.out.println("File already exists");
+        }
+        catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        createFile();
+    }
+}
